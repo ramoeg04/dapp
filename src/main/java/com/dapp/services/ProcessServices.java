@@ -52,18 +52,24 @@ public class ProcessServices {
 					System.out.println("Data Vacia");
 				} else if (data.getRc() == 0) {
 					System.out.println("RC es 0, Todo OK");
-				} else if (!data.getMsg().equals("Ok")) {
+				}
+				if (!data.getMsg().equals("Ok")) {
 					System.out.println("Malo");
 				} else {
 					System.out.println("Todo Ok");
 
 					try {
 						for (Endpoint1data i : data.getData()) {
-							System.out.println(i);
-							if (i.getName() == null) {
-								System.out.println("Nombre Nulo");
+							if (i.getId() == 0) {
+								System.out.println("Id Nulo");
+							} else if (i.getName().equals(null)) {
+								System.out.println("Nombre Nula");
 							} else if (i.getQr() == null) {
 								System.out.println("QR Nula");
+							} else if (i.getPush_notification() == null) {
+								System.out.println("notificacion Nula");
+							} else {
+								System.out.println(i);
 							}
 						}
 					} catch (Exception e) {
@@ -108,7 +114,7 @@ public class ProcessServices {
 //		get.setHeader("Authorization", "Bearer " + var.getToken());
 //		get.setHeader("channel", channel);
 //		get.setHeadr("csidpub", csidpub);
-		
+
 		try {
 			HttpResponse response = httpClient.execute(get);
 			HttpEntity entity = response.getEntity();
