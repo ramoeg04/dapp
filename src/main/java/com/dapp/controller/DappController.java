@@ -1,5 +1,6 @@
 package com.dapp.controller;
 
+import com.dapp.entities.Endpoint1;
 import com.dapp.entities.EpConfiguration;
 import com.dapp.services.EpConfigurationService;
 import com.dapp.services.EpExecutionLogServices;
@@ -26,8 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class DappController {
 	@Autowired
 	EpConfigurationService EpConfigurationService;
+	@Autowired
 	EpExecutionServices EpExecutionServices;
+	@Autowired
 	EpExecutionLogServices EpExecutionLogServices;
+	@Autowired
 	ProcessServices ProcessServices;
 
 ////////////////////////////////Configurations//////////////////////////////////////     
@@ -38,17 +42,17 @@ public class DappController {
 
 	@GetMapping("/configuration/id")
 	public EpConfiguration findById() {
-		return EpConfigurationService.findById(id);
+		return EpConfigurationService.findById(idEndpoint1);
 	}
 
 ////////////////////////////////Process//////////////////////////////////////   
 	@Value("${endpoint1}")
-	private Integer id;
+	private Integer idEndpoint1;
 
 	@GetMapping("/process1")
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public String Process1() {
-		return ProcessServices.Process1();
+	public Endpoint1 Process1() {
+		return ProcessServices.Process1(idEndpoint1);
 	}
 
 //    @RequestMapping("/getAll")

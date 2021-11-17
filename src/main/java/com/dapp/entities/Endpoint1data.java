@@ -1,12 +1,11 @@
-package com.dapp.dto;
+package com.dapp.entities;
 
-public class data {
-	
-	public data() {
+public class Endpoint1data {
+	public Endpoint1data() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public data(int id, String name, String image, Integer qr, Boolean push_notification) {
+	public Endpoint1data(int id, String name, String image, Integer qr, Boolean push_notification) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,10 +50,8 @@ public class data {
 	}
 	@Override
 	public String toString() {
-		return "data [id=" + id + ", name=" + name + ", image=" + image + ", qr=" + qr + ", push_notification="
+		return "Endpoint1data [id=" + id + ", name=" + name + ", image=" + image + ", qr=" + qr + ", push_notification="
 				+ push_notification + "]";
 	}
-	
-	
 
 }
