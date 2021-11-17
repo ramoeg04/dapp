@@ -7,6 +7,8 @@ package com.dapp.services;
 
 import com.dapp.entities.EpExecution;
 import com.dapp.repositorys.EpExecutionRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EpExecutionServices {
+	@Autowired
     public EpExecutionRepository EpExecutionRepository; 
 	
 	public EpExecution save(EpExecution saveData) {

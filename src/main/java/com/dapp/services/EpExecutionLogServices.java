@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EpExecutionLogServices {
-    @Autowired
-	public EpExecutionLogRepository EpExecutionLogRepository; 
-	
+	@Autowired
+	public EpExecutionLogRepository EpExecutionLogRepository;
+
 	public EpExecutionLog save(EpExecutionLog saveData) {
 		EpExecutionLog save = EpExecutionLogRepository.save(saveData);
 		return save;
 	}
-    
+
 }

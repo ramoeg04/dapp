@@ -8,11 +8,13 @@ package com.dapp.repositorys;
 import com.dapp.entities.EpExecution;
 import java.io.Serializable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Geomar Salas
  */
+@Repository
 public interface EpExecutionRepository extends JpaRepository<EpExecution, Serializable> {
     
 }
