@@ -34,38 +34,40 @@ public class ProcessServices {
 		HttpGet get = new HttpGet(var1.getEndpointDapp());
 //		"http://localhost:8080/api/configuration/var1.get.id"
 		String responseString = null;
-		get.setHeader("Authorization", "Basic " + "OjY3YmUzODU5LThhNjgtNDBmNC1iNzQ4LWQ2MGQxZmExMTZhYQ==");
+		get.setHeader("Authorization", "Basic " + var1.getToken());
+//		"OjY3YmUzODU5LThhNjgtNDBmNC1iNzQ4LWQ2MGQxZmExMTZhYQ=="
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		Gson gson = new Gson();
 		Endpoint1 data = null;
+
 		try {
 			HttpResponse response = httpClient.execute(get);
 			HttpEntity entity = response.getEntity();
 			responseString = EntityUtils.toString(entity, "UTF-8");
-
-			System.out.println("Valor del responseString:  " + responseString);
-
+//			System.out.println("Valor del responseString:  " + responseString);
 			data = gson.fromJson(responseString, Endpoint1.class);
+
 			try {
 				if (data == null) {
 					System.out.println("Data Vacia");
-
 				} else if (data.getRc() == 0) {
-
 					System.out.println("RC es 0, Todo OK");
-					
 				} else if (!data.getMsg().equals("Ok")) {
-
 					System.out.println("Malo");
-				}else {
+				} else {
 					System.out.println("Todo Ok");
-					for (Endpoint1data i : data.getData()) {
-						System.out.println(i);
-						if (i.getName() == null) {
-							System.out.println("Nombre Nulo");
-						} else if (i.getQr() == null) {
-							System.out.println("QR Nula");
+
+					try {
+						for (Endpoint1data i : data.getData()) {
+							System.out.println(i);
+							if (i.getName() == null) {
+								System.out.println("Nombre Nulo");
+							} else if (i.getQr() == null) {
+								System.out.println("QR Nula");
+							}
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			} catch (Exception e) {
@@ -88,7 +90,6 @@ public class ProcessServices {
 //   dar salida de validacion
 
 	public String Process6(Integer process6) {
-
 		EpConfiguration var = new EpConfiguration();
 		Optional<EpConfiguration> var2 = EpConfigurationRepository.findById(1);//
 		if (var2.isPresent()) {
@@ -96,35 +97,29 @@ public class ProcessServices {
 		} else {
 			return "la estas poniendo";
 		}
-
 		// ejemplo de consulta a un backend
 		System.out.println("Consumiento Servicio de" + var.getEndpointDapp());
-
 //    	System.out.println("Creando el token del back");
 //		String token = JwtUtil.addAuthenticationBack();
 		HttpGet get = new HttpGet(var.getEndpointDapp());// cargamos el endpoint
 		String responseString = null;
-
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		Gson gson = new Gson();
-
 //		get.setHeader("Authorization", "Bearer " + var.getToken());
 //		get.setHeader("channel", channel);
 //		get.setHeadr("csidpub", csidpub);
+		
 		try {
 			HttpResponse response = httpClient.execute(get);
-
 			HttpEntity entity = response.getEntity();
 			responseString = EntityUtils.toString(entity, "UTF-8");
 			System.out.println("Valor del responseString:  " + responseString);
 //			error data = gson.fromJson(responseString, error.class);
 //			System.out.println("mensaje de el cliente "+data.getMsg());
 			System.out.println(response.getStatusLine());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		// TODO Auto-generated method stub
 		return "todo ok";
 	}
