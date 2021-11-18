@@ -34,6 +34,8 @@ public class DappController {
 	@Autowired
 	ProcessServices ProcessServices;
 
+	@Value("${endpoint1}")
+	private Integer idEndpoint1;
 ////////////////////////////////Configurations//////////////////////////////////////     
 	@GetMapping("/configuration")
 	public List<EpConfiguration> find() {
@@ -46,11 +48,8 @@ public class DappController {
 	}
 
 ////////////////////////////////Process//////////////////////////////////////   
-	@Value("${endpoint1}")
-	private Integer idEndpoint1;
-
 	@GetMapping("/process1")
-	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseStatus(HttpStatus.ACCEPTED)
 	public Endpoint1 Process1() {
 		return ProcessServices.Process1(idEndpoint1);
 	}

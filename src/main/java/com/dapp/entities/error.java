@@ -1,4 +1,4 @@
-package com.dapp.dto;
+package com.dapp.entities;
 
 public class error {
 
