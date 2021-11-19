@@ -1,4 +1,4 @@
-package com.dapp.entities;
+package com.dapp.entities.endpoint1;
 
 public class Endpoint1data {
 	public Endpoint1data() {

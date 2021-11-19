@@ -1,13 +1,13 @@
-package com.dapp.entities;
+package com.dapp.entities.endpoint2;
 
 import java.util.List;
 
-public class Endpoint1 {
-	public Endpoint1() {
+public class Endpoint2 {
+	public Endpoint2() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Endpoint1(int rc, String msg, List<Endpoint1data> data) {
+	public Endpoint2(int rc, String msg, List<Endpoint2data> data) {
 		super();
 		this.rc = rc;
 		this.msg = msg;
@@ -15,7 +15,7 @@ public class Endpoint1 {
 	}
 	private int rc;
 	private String msg;
-	private List<Endpoint1data> data;
+	private List<Endpoint2data> data;
 	public int getRc() {
 		return rc;
 	}
@@ -28,15 +28,15 @@ public class Endpoint1 {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	public List<Endpoint1data> getData() {
+	public List<Endpoint2data> getData() {
 		return data;
 	}
-	public void setData(List<Endpoint1data> data) {
+	public void setData(List<Endpoint2data> data) {
 		this.data = data;
 	}
 	@Override
 	public String toString() {
-		return "Endpoint1 [rc=" + rc + ", msg=" + msg + ", data=" + data + "]";
+		return "Endpoint2 [rc=" + rc + ", msg=" + msg + ", data=" + data + "]";
 	}
 
 }
