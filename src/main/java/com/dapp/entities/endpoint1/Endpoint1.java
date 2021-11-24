@@ -16,6 +16,8 @@ public class Endpoint1 {
 	private int rc;
 	private String msg;
 	private List<Endpoint1data> data;
+
+
 	public int getRc() {
 		return rc;
 	}
@@ -34,9 +36,11 @@ public class Endpoint1 {
 	public void setData(List<Endpoint1data> data) {
 		this.data = data;
 	}
+
 	@Override
 	public String toString() {
 		return "Endpoint1 [rc=" + rc + ", msg=" + msg + ", data=" + data + "]";
 	}
+
 
 }

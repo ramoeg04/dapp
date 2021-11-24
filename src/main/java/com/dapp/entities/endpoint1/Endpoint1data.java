@@ -5,7 +5,7 @@ public class Endpoint1data {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Endpoint1data(int id, String name, String image, Integer qr, Boolean push_notification) {
+	public Endpoint1data(String id, String name, String image, Integer qr, Boolean push_notification) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -13,15 +13,15 @@ public class Endpoint1data {
 		this.qr = qr;
 		this.push_notification = push_notification;
 	}
-	private int id;
+	private String id;
 	private String name;
 	private String image;
 	private Integer qr;
 	private Boolean push_notification;
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

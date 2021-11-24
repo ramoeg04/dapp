@@ -5,17 +5,17 @@ public class Endpoint2category {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Endpoint2category(int id, String name) {
+	public Endpoint2category(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
-	private int id;
+	private String id;
 	private String name;
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -26,6 +26,6 @@ public class Endpoint2category {
 	}
 	@Override
 	public String toString() {
-		return "Endpoint2category [id=" + id + ", name=" + name + "]";
+		return "{id=" + id + ", name=" + name + "}";
 	}
 }

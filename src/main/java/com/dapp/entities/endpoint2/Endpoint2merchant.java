@@ -3,11 +3,12 @@ package com.dapp.entities.endpoint2;
 import java.util.List;
 
 public class Endpoint2merchant {
+	
 	public Endpoint2merchant() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Endpoint2merchant(int id, String name, String address, String image, List<Endpoint2category> category) {
+	public Endpoint2merchant(String id, String name, String address, String image, Endpoint2category category) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -15,15 +16,15 @@ public class Endpoint2merchant {
 		this.image = image;
 		this.category = category;
 	}
-	private int id;
+	private String id;
 	private String name;
 	private String address;
 	private String image;
-	private List<Endpoint2category> category;
-	public int getId() {
+	private Endpoint2category category;
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -44,10 +45,10 @@ public class Endpoint2merchant {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public List<Endpoint2category> getCategory() {
+	public Endpoint2category getCategory() {
 		return category;
 	}
-	public void setCategory(List<Endpoint2category> category) {
+	public void setCategory(Endpoint2category category) {
 		this.category = category;
 	}
 	@Override
@@ -55,4 +56,5 @@ public class Endpoint2merchant {
 		return "Endpoint2merchant [id=" + id + ", name=" + name + ", address=" + address + ", image=" + image
 				+ ", category=" + category + "]";
 	}
+	
 }

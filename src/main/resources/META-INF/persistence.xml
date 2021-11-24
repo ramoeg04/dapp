@@ -5,6 +5,10 @@
     <class>com.dapp.entities.EpExecution</class>
     <class>com.dapp.entities.EpExecutionLog</class>
     <class>com.dapp.entities.EpConfiguration</class>
+    <class>com.dapp.entities.EpConficuration</class>
+    <class>com.dapp.entities.unpaquete.EpConfiguration</class>
+    <class>com.dapp.entities.unpaquete.EpExecution</class>
+    <class>com.dapp.entities.unpaquete.EpExecutionLog</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://68.183.4.196:5432/MxPayments_Test"/>

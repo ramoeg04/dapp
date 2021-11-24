@@ -6,7 +6,7 @@
 package com.dapp.services;
 
 import com.dapp.entities.EpConfiguration;
-import com.dapp.entities.error;
+
 import com.dapp.repositorys.EpConfigurationRepository;
 import com.google.gson.Gson;
 

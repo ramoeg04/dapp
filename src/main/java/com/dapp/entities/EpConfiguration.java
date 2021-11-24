@@ -21,15 +21,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author Geomar Salas
  */
 @Entity
-@Table(name = "ep_configuration")
+@Table(name = "Ep_Configuration")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EpConfiguration.findAll", query = "SELECT e FROM EpConfiguration e"),
@@ -48,17 +50,17 @@ public class EpConfiguration implements Serializable {
     @Basic(optional = false)
     @Column(name = "ep_configuration_id")
     private Integer epConfigurationId;
-    @Basic(optional = false)
+    @Size(max = 500)
     @Column(name = "endpoint_dapp")
     private String endpointDapp;
-    @Column(name = "apikey")
+    @Size(max = 500)
+	@Column(name = "apikey")
     private String apikey;
+    @Size(max = 500)
     @Column(name = "token")
     private String token;
-    @Basic(optional = false)
     @Column(name = "status")
-    private boolean status;
-    @Basic(optional = false)
+    private Boolean status;
     @Column(name = "reccreated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date reccreated;
@@ -73,13 +75,6 @@ public class EpConfiguration implements Serializable {
 
     public EpConfiguration(Integer epConfigurationId) {
         this.epConfigurationId = epConfigurationId;
-    }
-
-    public EpConfiguration(Integer epConfigurationId, String endpointDapp, boolean status, Date reccreated) {
-        this.epConfigurationId = epConfigurationId;
-        this.endpointDapp = endpointDapp;
-        this.status = status;
-        this.reccreated = reccreated;
     }
 
     public Integer getEpConfigurationId() {
@@ -114,11 +109,11 @@ public class EpConfiguration implements Serializable {
         this.token = token;
     }
 
-    public boolean getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -139,6 +134,7 @@ public class EpConfiguration implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<EpExecution> getEpExecutionCollection() {
         return epExecutionCollection;
     }
@@ -167,9 +163,26 @@ public class EpConfiguration implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.dapp.entities.EpConfiguration[ epConfigurationId=" + epConfigurationId + " ]";
-    }
+	public EpConfiguration(Integer epConfigurationId, String endpointDapp, String apikey, String token, Boolean status,
+			Date reccreated, Date recupdated, Collection<EpExecution> epExecutionCollection) {
+		super();
+		this.epConfigurationId = epConfigurationId;
+		this.endpointDapp = endpointDapp;
+		this.apikey = apikey;
+		this.token = token;
+		this.status = status;
+		this.reccreated = reccreated;
+		this.recupdated = recupdated;
+		this.epExecutionCollection = epExecutionCollection;
+	}
+
+	@Override
+	public String toString() {
+		return "EpConfiguration [epConfigurationId=" + epConfigurationId + ", endpointDapp=" + endpointDapp
+				+ ", apikey=" + apikey + ", token=" + token + ", status=" + status + ", reccreated=" + reccreated
+				+ ", recupdated=" + recupdated + ", epExecutionCollection=" + epExecutionCollection + "]";
+	}
+
+   
     
 }

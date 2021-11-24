@@ -7,8 +7,8 @@ public class Endpoint2data {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Endpoint2data(int id, String description, String qr_image, String qr_str, String amount, String currency,
-			String cashout, String reference_num, List<Endpoint2merchant> merchant) {
+	public Endpoint2data(String id, String description, String qr_image, String qr_str, String amount, String currency,
+			String cashout, String reference_num, Endpoint2merchant merchant) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -20,7 +20,7 @@ public class Endpoint2data {
 		this.reference_num = reference_num;
 		this.merchant = merchant;
 	}
-	private int id;
+	private String id;
 	private String description;
 	private String qr_image;
 	private String qr_str;
@@ -28,11 +28,11 @@ public class Endpoint2data {
 	private String currency;
 	private String cashout;
 	private String reference_num;
-	private List<Endpoint2merchant> merchant;
-	public int getId() {
+	private Endpoint2merchant merchant;
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getDescription() {
@@ -77,10 +77,10 @@ public class Endpoint2data {
 	public void setReference_num(String reference_num) {
 		this.reference_num = reference_num;
 	}
-	public List<Endpoint2merchant> getMerchant() {
+	public Endpoint2merchant getMerchant() {
 		return merchant;
 	}
-	public void setMerchant(List<Endpoint2merchant> merchant) {
+	public void setMerchant(Endpoint2merchant merchant) {
 		this.merchant = merchant;
 	}
 	@Override
@@ -89,5 +89,5 @@ public class Endpoint2data {
 				+ qr_str + ", amount=" + amount + ", currency=" + currency + ", cashout=" + cashout + ", reference_num="
 				+ reference_num + ", merchant=" + merchant + "]";
 	}
-
+	
 }

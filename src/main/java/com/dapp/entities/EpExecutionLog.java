@@ -6,6 +6,7 @@
 package com.dapp.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,21 +14,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author Geomar Salas
  */
 @Entity
-@Table(name = "ep_execution_log")
+@Table(name = "Ep_ExecutionLog")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EpExecutionLog.findAll", query = "SELECT e FROM EpExecutionLog e"),
@@ -45,37 +48,29 @@ public class EpExecutionLog implements Serializable {
     @Basic(optional = false)
     @Column(name = "ep_execution_log_id")
     private Integer epExecutionLogId;
-    @Basic(optional = false)
+    @Size(max = 100)
     @Column(name = "type_process")
     private String typeProcess;
+    @Size(max = 500)
     @Column(name = "description_process")
     private String descriptionProcess;
-    @Basic(optional = false)
+    @Size(max = 20)
     @Column(name = "status")
-    private int status;
-    @Basic(optional = false)
+    private String status;
     @Column(name = "reccreated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date reccreated;
     @Column(name = "recupdated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date recupdated;
-    @JoinColumn(name = "ep_execution_id", referencedColumnName = "ep_execution_id")
-    @ManyToOne(optional = false)
-    private EpExecution epExecutionId;
+    @OneToMany(mappedBy = "epExecutionLogId")
+    private Collection<EpExecution> epExecutionCollection;
 
     public EpExecutionLog() {
     }
 
     public EpExecutionLog(Integer epExecutionLogId) {
         this.epExecutionLogId = epExecutionLogId;
-    }
-
-    public EpExecutionLog(Integer epExecutionLogId, String typeProcess, int status, Date reccreated) {
-        this.epExecutionLogId = epExecutionLogId;
-        this.typeProcess = typeProcess;
-        this.status = status;
-        this.reccreated = reccreated;
     }
 
     public Integer getEpExecutionLogId() {
@@ -102,11 +97,11 @@ public class EpExecutionLog implements Serializable {
         this.descriptionProcess = descriptionProcess;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -126,12 +121,14 @@ public class EpExecutionLog implements Serializable {
         this.recupdated = recupdated;
     }
 
-    public EpExecution getEpExecutionId() {
-        return epExecutionId;
+    @XmlTransient
+    @JsonIgnore
+    public Collection<EpExecution> getEpExecutionCollection() {
+        return epExecutionCollection;
     }
 
-    public void setEpExecutionId(EpExecution epExecutionId) {
-        this.epExecutionId = epExecutionId;
+    public void setEpExecutionCollection(Collection<EpExecution> epExecutionCollection) {
+        this.epExecutionCollection = epExecutionCollection;
     }
 
     @Override
@@ -155,8 +152,25 @@ public class EpExecutionLog implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "com.dapp.entities.EpExecutionLog[ epExecutionLogId=" + epExecutionLogId + " ]";
-    }
+	public String toString() {
+		return "EpExecutionLog [epExecutionLogId=" + epExecutionLogId + ", typeProcess=" + typeProcess
+				+ ", descriptionProcess=" + descriptionProcess + ", status=" + status + ", reccreated=" + reccreated
+				+ ", recupdated=" + recupdated + ", epExecutionCollection=" + epExecutionCollection + "]";
+	}
+
+	public EpExecutionLog(Integer epExecutionLogId, String typeProcess, String descriptionProcess, String status,
+			Date reccreated, Date recupdated, Collection<EpExecution> epExecutionCollection) {
+		super();
+		this.epExecutionLogId = epExecutionLogId;
+		this.typeProcess = typeProcess;
+		this.descriptionProcess = descriptionProcess;
+		this.status = status;
+		this.reccreated = reccreated;
+		this.recupdated = recupdated;
+		this.epExecutionCollection = epExecutionCollection;
+	}
+    
+    
+    
     
 }

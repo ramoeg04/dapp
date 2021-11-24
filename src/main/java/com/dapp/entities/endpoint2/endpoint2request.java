@@ -1,13 +1,13 @@
 package com.dapp.entities.endpoint2;
 
-public class endpoint2response {
+public class endpoint2request {
 
-	public endpoint2response() {
+	public endpoint2request() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public endpoint2response(int amount, String description, int qr_source, int expiration_minutes,
-			int cashout_amount) {
+	public endpoint2request(int amount, String description, int qr_source, int expiration_minutes,
+			String cashout_amount) {
 		super();
 		this.amount = amount;
 		this.description = description;
@@ -19,7 +19,7 @@ public class endpoint2response {
 	private String description;
 	private int qr_source;
 	private int expiration_minutes;
-	private int cashout_amount;
+	private String cashout_amount;
 	public int getAmount() {
 		return amount;
 	}
@@ -44,16 +44,18 @@ public class endpoint2response {
 	public void setExpiration_minutes(int expiration_minutes) {
 		this.expiration_minutes = expiration_minutes;
 	}
-	public int getCashout_amount() {
+	public String getCashout_amount() {
 		return cashout_amount;
 	}
-	public void setCashout_amount(int cashout_amount) {
+	public void setCashout_amount(String cashout_amount) {
 		this.cashout_amount = cashout_amount;
 	}
 	@Override
 	public String toString() {
-		return "endpoint2response [amount=" + amount + ", description=" + description + ", qr_source=" + qr_source
-				+ ", expiration_minutes=" + expiration_minutes + ", cashout_amount=" + cashout_amount + "]";
+		
+		
+		return "{amount:" + amount + ", description:" + description + ", qr_source:" + qr_source
+				+ ", expiration_minutes:" + expiration_minutes + ", cashout_amount:" + cashout_amount + "}";
 	}
 
 }

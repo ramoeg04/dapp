@@ -6,10 +6,8 @@
 package com.dapp.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,19 +17,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Geomar Salas
  */
 @Entity
-@Table(name = "ep_execution")
+@Table(name = "Ep_Execution")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EpExecution.findAll", query = "SELECT e FROM EpExecution e"),
@@ -48,11 +45,12 @@ public class EpExecution implements Serializable {
     @Basic(optional = false)
     @Column(name = "ep_execution_id")
     private Integer epExecutionId;
+    @Size(max = 2147483647)
     @Column(name = "json_in")
     private String jsonIn;
+    @Size(max = 2147483647)
     @Column(name = "json_out")
     private String jsonOut;
-    @Basic(optional = false)
     @Column(name = "reccreated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date reccreated;
@@ -62,19 +60,15 @@ public class EpExecution implements Serializable {
     @JoinColumn(name = "ep_configuration_id", referencedColumnName = "ep_configuration_id")
     @ManyToOne(optional = false)
     private EpConfiguration epConfigurationId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "epExecutionId")
-    private Collection<EpExecutionLog> epExecutionLogCollection;
+    @JoinColumn(name = "ep_execution_log_id", referencedColumnName = "ep_execution_log_id")
+    @ManyToOne
+    private EpExecutionLog epExecutionLogId;
 
     public EpExecution() {
     }
 
     public EpExecution(Integer epExecutionId) {
         this.epExecutionId = epExecutionId;
-    }
-
-    public EpExecution(Integer epExecutionId, Date reccreated) {
-        this.epExecutionId = epExecutionId;
-        this.reccreated = reccreated;
     }
 
     public Integer getEpExecutionId() {
@@ -125,13 +119,12 @@ public class EpExecution implements Serializable {
         this.epConfigurationId = epConfigurationId;
     }
 
-    @XmlTransient
-    public Collection<EpExecutionLog> getEpExecutionLogCollection() {
-        return epExecutionLogCollection;
+    public EpExecutionLog getEpExecutionLogId() {
+        return epExecutionLogId;
     }
 
-    public void setEpExecutionLogCollection(Collection<EpExecutionLog> epExecutionLogCollection) {
-        this.epExecutionLogCollection = epExecutionLogCollection;
+    public void setEpExecutionLogId(EpExecutionLog epExecutionLogId) {
+        this.epExecutionLogId = epExecutionLogId;
     }
 
     @Override
@@ -154,9 +147,25 @@ public class EpExecution implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.dapp.entities.EpExecution[ epExecutionId=" + epExecutionId + " ]";
-    }
+	public EpExecution(Integer epExecutionId, String jsonIn, String jsonOut, Date reccreated, Date recupdated,
+			EpConfiguration epConfigurationId, EpExecutionLog epExecutionLogId) {
+		super();
+		this.epExecutionId = epExecutionId;
+		this.jsonIn = jsonIn;
+		this.jsonOut = jsonOut;
+		this.reccreated = reccreated;
+		this.recupdated = recupdated;
+		this.epConfigurationId = epConfigurationId;
+		this.epExecutionLogId = epExecutionLogId;
+	}
+
+	@Override
+	public String toString() {
+		return "EpExecution [epExecutionId=" + epExecutionId + ", jsonIn=" + jsonIn + ", jsonOut=" + jsonOut
+				+ ", reccreated=" + reccreated + ", recupdated=" + recupdated + ", epConfigurationId="
+				+ epConfigurationId + ", epExecutionLogId=" + epExecutionLogId + "]";
+	}
+    
+    
     
 }
