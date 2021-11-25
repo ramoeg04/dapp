@@ -22,9 +22,14 @@ import com.dapp.util.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
+import ch.qos.logback.classic.Logger;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Optional;
+
+import javax.faces.flow.SwitchCase;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -57,9 +62,8 @@ public class ProcessService {
 		EpExecutionLog RegisterLog = new EpExecutionLog();
 		EpExecution Register = new EpExecution();
 		Date fechaActual = new Date();
-					
-		RegisterLog = EpExecutionLogServices.EpExecutionLogRepository.getById(idBaseDeDatos);
-		RegisterLog.setDescriptionProcess("->iniciando procees3");
+
+		RegisterLog.setDescriptionProcess("->iniciando procees1");
 		RegisterLog.setTypeProcess("venta");
 		RegisterLog.setReccreated(fechaActual);
 		RegisterLog.setRecupdated(fechaActual);
@@ -77,12 +81,13 @@ public class ProcessService {
 		Gson gson = new Gson();
 		Endpoint1 data = new Endpoint1();
 		boolean isOkData = true;
-		int theError = 0;
-
+		String message = null;
+		int error = 0;
 		Register.setJsonIn("");
 		fechaActual = new Date();
 		Register.setRecupdated(fechaActual);
 		Register = EpExecutionServices.save(Register);
+		
 		try {
 			HttpResponse response = httpClient.execute(get);
 			HttpEntity entity = response.getEntity();
@@ -93,77 +98,43 @@ public class ProcessService {
 			Register.setRecupdated(fechaActual);
 			Register = EpExecutionServices.save(Register);
 			data = gson.fromJson(responseString, Endpoint1.class);
-			globalexception globalexception = new globalexception (0,"Error",null); 
+
 			try {
-
-				if (handler.handler1(data) != 0) {
-					throw globalexception;
+				error = handler.handler1(data);
+				if (error != 0) {
+					isOkData = false;
+					System.out.println(error);
+					switch (error) {
+					case 1:
+						message = "Objeto del Endpoint Vacio";
+						break;
+					case 2:
+						message = "Datos del Objeto del Endpoint Vacio";
+						break;
+					case 3:
+						message = "Endpoint Fallo";
+						break;
+					}
 				}
-
 			} catch (Exception e) {
 				System.out.println("Error no se pudo ejecutar el handler");
-				throw globalexception;
-				// TODO: handle exception
+				error = 4;
+				message = e.getMessage();
+				isOkData = false;
 			}
-
-//			try {
-//				if (data == null) {
-//					isOkData = false;
-//					theError = 1;
-//
-//				} else if (data.getRc() != 0) {
-//					isOkData = false;
-//					theError = 2;
-//				}
-//				if (!data.getMsg().equals("Ok")) {
-//					isOkData = false;
-//					theError = 3;
-//				}
-//
-//				try {
-//					for (Endpoint1data i : data.getData()) {
-//						if (i.getId() == null) {
-//							isOkData = false;
-//							theError = 4;
-//							break;
-//						} else if (i.getName().equals(null)) {
-//							isOkData = false;
-//							theError = 5;
-//							break;
-//						} else if (i.getQr() == null) {
-//							isOkData = false;
-//							theError = 6;
-//							break;
-//						} else if (i.getPush_notification() == null) {
-//							isOkData = false;
-//							theError = 7;
-//							break;
-//						}
-//					}
-//				} catch (Exception e) {
-//					isOkData = false;
-//					theError = 8;
-//					e.printStackTrace();
-//				}
-//
-//			} catch (Exception e) {
-//				theError = 9;
-//				isOkData = false;
-//				e.printStackTrace();
-//			}
 		} catch (Exception e) {
-			theError = 10;
+			error = 4;
+			message = e.getMessage();
 			isOkData = false;
-			e.printStackTrace();
 		}
-
 		if (!isOkData) {
 			RegisterLog
-					.setDescriptionProcess(RegisterLog.getDescriptionProcess() + "-> endpoint1 Error --> " + theError);
+					.setDescriptionProcess(RegisterLog.getDescriptionProcess() + "-> endpoint1 Error --> " + message);
 			fechaActual = new Date();
 			RegisterLog.setRecupdated(fechaActual);
 			RegisterLog.setStatus("Error");
 			RegisterLog = EpExecutionLogServices.save(RegisterLog);
+			throw new globalexception(error, message, null);
 		} else {
 			RegisterLog.setDescriptionProcess(RegisterLog.getDescriptionProcess() + "-> endpoint1 sucess");
 			fechaActual = new Date();
@@ -181,7 +152,9 @@ public class ProcessService {
 		Date fechaActual = new Date();
 		Endpoint2 data = null;
 		boolean isOkData = true;
-		int theError = 0;
+		String message = null;
+		int error = 0;
+		
 
 		if (!(RegisterLog.getStatus() == "Error")) {
 			RegisterLog = EpExecutionLogServices.EpExecutionLogRepository.getById(idBaseDeDatos);
@@ -217,33 +190,36 @@ public class ProcessService {
 				System.out.println(data);
 
 				try {
-					if (data == null) {
+					error = handler.handler2(data);
+					if (error != 0) {
 						isOkData = false;
-						theError = 1;
-
-					} else if (data.getRc() != 0) {
-						isOkData = false;
-						theError = 2;
+						System.out.println(error);
+						switch (error) {
+						case 1:
+							message = "Objeto del Endpoint Vacio";
+							break;
+						case 2:
+							message = "Datos del Objeto del Endpoint Vacio";
+							break;
+						case 3:
+							message = "Endpoint Fallo";
+							break;
+						}
 					}
-					if (!data.getMsg().equals("Ok")) {
-						isOkData = false;
-						theError = 3;
-					}
-
 				} catch (Exception e) {
+					System.out.println("Error no se pudo ejecutar el handler");
+					error = 4;
+					message = e.getMessage();
 					isOkData = false;
-					theError = 4;
-					e.printStackTrace();
 				}
-
 			} catch (Exception e) {
+				error = 4;
+				message = e.getMessage();
 				isOkData = false;
-				theError = 5;
-				e.printStackTrace();
 			}
 			if (!isOkData) {
 				RegisterLog.setDescriptionProcess(
-				RegisterLog.getDescriptionProcess() + "-> endpoint2 Error --> " + theError);
+						RegisterLog.getDescriptionProcess() + "-> endpoint2 Error --> " + message);
 				fechaActual = new Date();
 				RegisterLog.setRecupdated(fechaActual);
 				RegisterLog.setStatus("Error");
@@ -286,7 +262,9 @@ public class ProcessService {
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			Gson gson = new Gson();
 			boolean isOkData = true;
-			int theError = 0;
+			String message = null;
+			int error = 0;
+			Register.setJsonIn("");
 			try {
 				HttpResponse response = httpClient.execute(get);
 				HttpEntity entity = response.getEntity();
@@ -299,33 +277,36 @@ public class ProcessService {
 				data = gson.fromJson(responseString, Endpoint3.class);
 
 				try {
-					if (data == null) {
+					error = handler.handler3(data);
+					if (error != 0) {
 						isOkData = false;
-						theError = 1;
-
-					} else if (data.getRc() != 0) {
-						isOkData = false;
-						theError = 2;
+						System.out.println(error);
+						switch (error) {
+						case 1:
+							message = "Objeto del Endpoint Vacio";
+							break;
+						case 2:
+							message = "Datos del Objeto del Endpoint Vacio";
+							break;
+						case 3:
+							message = "Endpoint Fallo";
+							break;
+						}
 					}
-					if (!data.getMsg().equals("Ok")) {
-						isOkData = false;
-						theError = 3;
-					}
-
 				} catch (Exception e) {
-					theError = 4;
+					System.out.println("Error no se pudo ejecutar el handler");
+					error = 4;
+					message = e.getMessage();
 					isOkData = false;
-					e.printStackTrace();
 				}
-
 			} catch (Exception e) {
+				error = 4;
+				message = e.getMessage();
 				isOkData = false;
-				theError = 5;
-				e.printStackTrace();
 			}
 			if (!isOkData) {
 				RegisterLog.setDescriptionProcess(
-						RegisterLog.getDescriptionProcess() + "-> endpoint3 Error --> " + theError);
+						RegisterLog.getDescriptionProcess() + "-> endpoint3 Error --> " + message);
 				fechaActual = new Date();
 				RegisterLog.setRecupdated(fechaActual);
 				RegisterLog.setStatus("Error");
@@ -351,7 +332,9 @@ public class ProcessService {
 		Date fechaActual = new Date();
 		Endpoint4 data = null;
 		boolean isOkData = true;
-		int theError = 0;
+		String message = null;
+		int error = 0;
+		Register.setJsonIn("");
 
 		if (!(RegisterLog.getStatus() == "Error")) {
 			RegisterLog = EpExecutionLogServices.EpExecutionLogRepository.getById(idBaseDeDatos);
@@ -387,33 +370,36 @@ public class ProcessService {
 				data = gson.fromJson(responseString, Endpoint4.class);
 				System.out.println(data);
 				try {
-					if (data == null) {
+					error = handler.handler4(data);
+					if (error != 0) {
 						isOkData = false;
-						theError = 1;
-
-					} else if (data.getRc() != 0) {
-						isOkData = false;
-						theError = 2;
+						System.out.println(error);
+						switch (error) {
+						case 1:
+							message = "Objeto del Endpoint Vacio";
+							break;
+						case 2:
+							message = "Datos del Objeto del Endpoint Vacio";
+							break;
+						case 3:
+							message = "Endpoint Fallo";
+							break;
+						}
 					}
-					if (!data.getMsg().equals("Ok")) {
-						isOkData = false;
-						theError = 3;
-					}
-
 				} catch (Exception e) {
+					System.out.println("Error no se pudo ejecutar el handler");
+					error = 4;
+					message = e.getMessage();
 					isOkData = false;
-					theError = 4;
-					e.printStackTrace();
 				}
-
 			} catch (Exception e) {
+				error = 4;
+				message = e.getMessage();
 				isOkData = false;
-				theError = 5;
-				e.printStackTrace();
 			}
 			if (!isOkData) {
 				RegisterLog.setDescriptionProcess(
-						RegisterLog.getDescriptionProcess() + "-> endpoint4 Error --> " + theError);
+						RegisterLog.getDescriptionProcess() + "-> endpoint4 Error --> " + message);
 				fechaActual = new Date();
 				RegisterLog.setRecupdated(fechaActual);
 				RegisterLog.setStatus("Error");
@@ -439,7 +425,9 @@ public class ProcessService {
 		Date fechaActual = new Date();
 		Endpoint5 data = null;
 		boolean isOkData = true;
-		int theError = 0;
+		String message = null;
+		int error = 0;
+		
 
 		if (!(RegisterLog.getStatus() == "Error")) {
 			RegisterLog = EpExecutionLogServices.EpExecutionLogRepository.getById(idBaseDeDatos);
@@ -475,33 +463,36 @@ public class ProcessService {
 				data = gson.fromJson(responseString, Endpoint5.class);
 				System.out.println(data);
 				try {
-					if (data == null) {
+					error = handler.handler5(data);
+					if (error != 0) {
 						isOkData = false;
-						theError = 1;
-
-					} else if (data.getRc() != 0) {
-						isOkData = false;
-						theError = 2;
+						System.out.println(error);
+						switch (error) {
+						case 1:
+							message = "Objeto del Endpoint Vacio";
+							break;
+						case 2:
+							message = "Datos del Objeto del Endpoint Vacio";
+							break;
+						case 3:
+							message = "Endpoint Fallo";
+							break;
+						}
 					}
-					if (!data.getMsg().equals("Ok")) {
-						isOkData = false;
-						theError = 3;
-					}
-
 				} catch (Exception e) {
+					System.out.println("Error no se pudo ejecutar el handler");
+					error = 4;
+					message = e.getMessage();
 					isOkData = false;
-					theError = 4;
-					e.printStackTrace();
 				}
-
 			} catch (Exception e) {
+				error = 4;
+				message = e.getMessage();
 				isOkData = false;
-				theError = 5;
-				e.printStackTrace();
 			}
 			if (!isOkData) {
 				RegisterLog.setDescriptionProcess(
-						RegisterLog.getDescriptionProcess() + "-> endpoint5 Error --> " + theError);
+						RegisterLog.getDescriptionProcess() + "-> endpoint5 Error --> " + message);
 				fechaActual = new Date();
 				RegisterLog.setRecupdated(fechaActual);
 				RegisterLog.setStatus("Error");
